@@ -1,0 +1,100 @@
+                                -- NORMALIZATION OF CUSTOMERS TABLE --
+
+
+Customers
+----------
+CustomerID
+CustomerName
+CustomerAddress
+CustomerCity
+CustomerState
+CustomerZipCode
+CustomerPhoneNumber
+CustomerAlternatePhoneNumber
+
+
+-- This table violates the First Normal Form (1NF) because it includes multiple values in a single 
+    -- attribute (CustomerPhoneNumber and CustomerAlternatePhoneNumber).
+
+-- To normalize this table to the First Normal Form (1NF), we need to separate the multiple values 
+   -- into separate columns:
+
+
+Customers
+----------
+CustomerID
+CustomerName
+AddressID (Foreign Key to Address table)
+PhoneID (Foreign Key to Phone table)
+
+
+
+Address
+--------
+AddressID
+Street
+City
+State
+ZipCode
+
+
+
+Phone
+------
+PhoneID
+PhoneNumber
+PhoneType (Primary, Alternate, etc.)
+
+
+
+-- Now, the "Customers" table is in the First Normal Form (1NF).
+
+-- To normalize further to the Second Normal Form (2NF), we need to ensure that all non-key attributes 
+     -- are fully dependent on the primary key. In this case, the "Customers" table is already in 2NF.
+
+
+-- To achieve the Third Normal Form (3NF), we need to ensure that there are no transitive dependencies 
+    -- between non-key attributes. In this case, the "Address" table has a transitive dependency on the
+        -- "Customers" table through the "AddressID" foreign key.
+     
+-- To remove this transitive dependency, we can create a separate table for storing city and state information:
+
+
+
+Customers
+----------
+CustomerID
+CustomerName
+AddressID (Foreign Key to Address table)
+PhoneID (Foreign Key to Phone table)
+
+
+
+
+Address
+--------
+AddressID
+Street
+CityStateID (Foreign Key to CityState table)
+ZipCode
+
+
+
+CityState                                        
+----------
+CityStateID
+City
+State
+
+
+
+Phone
+------
+PhoneID
+PhoneNumber
+PhoneType (Primary, Alternate, etc.)
+
+
+-- Now, the database schema is in the Third Normal Form (3NF), as there are no transitive dependencies 
+    -- between non-key attributes.
+
